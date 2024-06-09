@@ -3,7 +3,7 @@ A Chrome extension to inject a CSS codeblock from Github profiles into the entir
 
 <a href="https://github.com/tiramisyuz/ghcss-ext/releases">Releases (compiled CRXs)</a>
 
-This extension should work on Firefox. Use the firefox branch. I have no idea if it works I use chrome
+If you use Firefox either use the Firefox branch or get it from the extension store. The extension on the store is maintained by [@zoey-on-github](https://github.com/zoey-on-github).
 
 ## Usage
 Put the following into your profile's README.md (**this is just an example**):
