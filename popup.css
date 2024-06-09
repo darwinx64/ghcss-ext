@@ -1,0 +1,43 @@
+body {
+    background-color: #222;
+    color: #ddd;
+    font-family: "SF Pro", "Arial";
+    user-select: none;
+}
+
+input {
+    cursor: pointer;
+}
+
+header {
+    background-color: #333;
+    padding: 20px;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    background-color: #333;
+}
+
+a {
+    color: #9cf;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+.btn {
+    background-color: #555;
+    color: #ddd;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn:hover {
+    background-color: #777;
+}
