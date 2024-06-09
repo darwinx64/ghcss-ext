@@ -20,10 +20,5 @@ p, header, a, span {
 
 .. and install the extension. **You may customize this however you want, however, make sure to keep the IDs the same**
 
-## Troubleshooting
-If injection doesn't work, try enabling it in the extension settings from the icon
-
-If you'd like to see the code on profiles for the CSS they inject, you can toggle that in settings
-
 ## Contributing
 Contributions are welcome.
