@@ -21,20 +21,30 @@ function waitForElement(selector) {
 }
 
 async function inject() {
+    // if injection = true, run this code
     const element = await waitForElement('#user-content-ghusrcss-code')
     if (element && element.textContent.trim()) {
         const styleElement = document.createElement("style")
         styleElement.textContent = element.textContent.trim()
         element.appendChild(styleElement) // we could also put this in the <head> but it gets buggy
     }
-
+      // else, give error in console
 }
 
-inject()
+function injectWarning() {
+    let text = "Would you like to load this user's custom CSS?";
+    if (confirm(text) == true) {
+        inject();
+    } else {
+      console.log("Inject failed because the user disallowed."); 
+    }
+  }
+
+  injectWarning() // inject()
 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.message === 'urlchange') {
-            inject()
+            injectWarning() // might be the cause of #2?
         }
     })
