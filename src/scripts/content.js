@@ -31,6 +31,7 @@ async function inject() {
       // else, give error in console
 }
 
+// saved for when user gets reported too many times (im not removing it fully)
 function injectWarning() {
     let text = "Would you like to load this user's custom CSS?";
     if (confirm(text) == true) {
@@ -40,11 +41,11 @@ function injectWarning() {
     }
   }
 
-  injectWarning() // inject()
+  inject()
 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.message === 'urlchange') {
-            injectWarning() // might be the cause of #2?
+            inject() // might be the cause of #2?
         }
     })
