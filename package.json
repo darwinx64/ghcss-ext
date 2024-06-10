@@ -1,0 +1,30 @@
+{
+    "name": "ghcss-ext",
+    "description": " Custom Github Profile CSS ",
+    "license": "MIT",
+    "homepage": "https://github.com/tiramisyuz/ghcss-ext#readme",
+    "authors": [
+        "tiramisyuz",
+        "zoey-on-github",
+        "Bims-sh"
+    ],
+    "version": "1.0",
+    "devDependencies": {
+        "copy-webpack-plugin": "^12.0.2",
+        "file-loader": "^6.2.0",
+        "glob": "^10.4.1",
+        "html-webpack-plugin": "5.6.0",
+        "webpack": "^5.91.0",
+        "webpack-cli": "^5.1.4"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tiramisyuz/ghcss-ext.git"
+    },
+    "scripts": {
+        "build": "webpack --env mode=prod browser=chrome --config webpack.config.js --stats-error-details",
+        "build_ff": "webpack --env mode=prod browser=firefox --config webpack.config.js --stats-error-details",
+        "start": "webpack --env mode=dev browser=chrome --config webpack.config.js --stats-error-details --watch",
+        "start_ff": "webpack --env mode=dev browser=firefox --config webpack.config.js --stats-error-details --watch"
+    }
+}
