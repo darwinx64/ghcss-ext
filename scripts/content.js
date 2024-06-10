@@ -34,9 +34,8 @@ function injectWarning() {
     if (confirm(text) == true) {
         inject();
     } else {
-      text = "Inject failed because the user disallowed.";
+      console.log("Inject failed because the user disallowed."); 
     }
-    document.getElementById("demo").innerHTML = text;
   }
 
   injectWarning()
@@ -45,6 +44,6 @@ function injectWarning() {
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         if (request.message === 'urlchange') {
-            inject()
+            injectWarning() // might be the cause of #2?
         }
     })
