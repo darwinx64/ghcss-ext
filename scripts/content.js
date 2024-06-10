@@ -21,12 +21,14 @@ function waitForElement(selector) {
 }
 
 async function inject() {
+    // if injection = true, run this code
     const element = await waitForElement('#user-content-ghusrcss-code')
     if (element && element.textContent.trim()) {
         const styleElement = document.createElement("style")
         styleElement.textContent = element.textContent.trim()
         element.appendChild(styleElement) // we could also put this in the <head> but it gets buggy
-    }
+    } 
+    // else, give error in console
 }
 
 function injectWarning() {

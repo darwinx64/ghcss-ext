@@ -1,19 +1,20 @@
 const injectCheckbox = document.getElementById('injection');
 const codeCheckbox = document.getElementById('codevisible');
+let injection, codeVisible = true;
 
 // from https://stackoverflow.com/questions/6358673/javascript-checkbox-onchange
 injectCheckbox.addEventListener('change', (event) => {
   if (event.currentTarget.checked) {
-    // do injection stuff
+    injection = true;
   } else {
-   // do not do injection stuff
+    injection = false;
   }
 })
 
 codeCheckbox.addEventListener('change', (event) => {
     if (event.currentTarget.checked) {
-      // do code visible stuff
+      codeVisible = true;
     } else {
-     // do not do code visible stuff
+     codeVisible = false;
     }
   })
