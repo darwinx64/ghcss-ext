@@ -27,10 +27,20 @@ async function inject() {
         styleElement.textContent = element.textContent.trim()
         element.appendChild(styleElement) // we could also put this in the <head> but it gets buggy
     }
-
 }
 
-inject()
+function injectWarning() {
+    let text = "Would you like to load this user's custom CSS?";
+    if (confirm(text) == true) {
+        inject();
+    } else {
+      text = "Inject failed because the user disallowed.";
+    }
+    document.getElementById("demo").innerHTML = text;
+  }
+
+  injectWarning()
+  // inject()
 
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
