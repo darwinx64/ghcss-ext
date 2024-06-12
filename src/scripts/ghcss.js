@@ -87,7 +87,14 @@ function deleteCssContainer() {
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     chrome.storage.local.get("injection", async function (data) {
         if (request.action === "ghcss" && await data.injection) {
-            await applyGhCssStylesheet(document.URL);
+            const userId = document.querySelector('meta[name="octolytics-actor-id"]').content;
+
+            await chrome.runtime.sendMessage({action: "checkUser", userId: userId}, (response) => {
+                // why does this isBanned not work, we get correct data from background.js
+                if (!response.isBanned) {
+                    applyGhCssStylesheet(document.URL);
+                }
+            })
         }
     });
 

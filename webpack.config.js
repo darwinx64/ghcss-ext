@@ -64,6 +64,10 @@ module.exports = (env) => {
                         transform(raw) {
                             let processed = JSON.parse(raw.toString());
 
+                            if (mode === "dev") {
+                                processed.host_permissions.push("http://localhost:5296/*");
+                            }
+
                             if (env.browser === "firefox") {
                                 processed = convertToFirefoxManifest(processed);
                             }
