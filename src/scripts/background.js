@@ -6,8 +6,11 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "checkUser" && request.userId) {
-        fetch(`http://localhost:5296/user/${request.userId}`).then(response => sendResponse(response.json()));
-    }
+        fetch(`http://localhost:5296/user/${request.userId}`)
+            .then(response => response.json())
+            .then(data => sendResponse(data))
+            .catch(error => console.error("Error fetching user data:", error));
 
-    return true;
+        return true;
+    }
 });
