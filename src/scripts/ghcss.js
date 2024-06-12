@@ -1,5 +1,3 @@
-applyGhCssStylesheet(document.URL);
-
 function isGithubUserProfile(url) {
     try {
         const parsedUrl = new URL(url);
@@ -79,9 +77,20 @@ async function applyGhCssStylesheet(url) {
 }
 
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-    if (request.action === "pageLoad") {
-        await applyGhCssStylesheet(document.URL);
+    if (request.action === "ghcss-settings") {
+        console.log("Test")
+        chrome.storage.local.get("injection", async function (data) {
+            await updateSettings(data.injection);
+        });
     }
+})
+
+chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+    chrome.storage.local.get("injection", async function (data) {
+        if (request.action === "ghcss" && await data.injection) {
+            await applyGhCssStylesheet(document.URL);
+        }
+    });
 
     return true;
 });
