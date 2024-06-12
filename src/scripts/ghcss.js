@@ -58,32 +58,31 @@ async function appendStyleTag(url) {
 }
 
 async function applyGhCssStylesheet(url) {
-    if (!isGithubUserProfile(url)) return;
+    if (!isGithubUserProfile(url)) {
+        deleteCssContainer();
+        return;
+    }
 
     if (document.body.dataset.applied === "true") return;
 
     const cssContainer = document.getElementById("ghcss-container");
 
-    if (cssContainer!= null) {
+    if (cssContainer != null) {
         const lastUsername = cssContainer.getAttribute("username");
         const username = new URL(document.URL).pathname.split("/").filter(segment => segment!== "")[0];
 
         if (lastUsername !== username) {
-            cssContainer.remove();
+            deleteCssContainer();
         }
     }
 
     await appendStyleTag(url);
 }
 
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-    if (request.action === "ghcss-settings") {
-        console.log("Test")
-        chrome.storage.local.get("injection", async function (data) {
-            await updateSettings(data.injection);
-        });
-    }
-})
+function deleteCssContainer() {
+    const cssContainer = document.getElementById("ghcss-container");
+    if (cssContainer != null) cssContainer.remove();
+}
 
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     chrome.storage.local.get("injection", async function (data) {
