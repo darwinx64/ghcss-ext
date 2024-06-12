@@ -18,7 +18,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://github.com/*"],
+      "matches": ["*://github.com/*"],
       "js": ["scripts/ghcss.js"],
       "run_at": "document_idle"
     }

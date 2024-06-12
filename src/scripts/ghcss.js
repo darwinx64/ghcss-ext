@@ -32,6 +32,8 @@ async function fetchCssFile(url) {
         const response = await fetch(ghCssUrl);
         if (!response.ok) return null;
 
+        console.log("abc")
+
         return await response.text();
     } catch (error) {
         console.error(error.message);
@@ -39,23 +41,54 @@ async function fetchCssFile(url) {
     }
 }
 
-async function applyGhCssStylesheet(url) {
-    if (document.getElementById("ghcss-container") == null) {
-        if (!isGithubUserProfile(url)) return;
+async function appendStyleTag(url) {
+    try {
+        const cssContent = await fetchCssFile(url);
+        if (cssContent == null) return;
 
-        try {
-            const cssContent = await fetchCssFile(url);
-            if (cssContent == null) return;
+        const username = new URL(document.URL).pathname.split("/").filter(segment => segment!== "")[0];
+        const styleElement = document.createElement("style");
 
-            const styleElement = document.createElement("style");
-            styleElement.id = "ghcss-container";
-            styleElement.innerText = cssContent;
+        styleElement.id = "ghcss-container";
+        styleElement.setAttribute("username", username);
+        styleElement.innerText = cssContent;
 
-            document.head.appendChild(styleElement);
+        document.head.appendChild(styleElement);
 
-            console.log("gh.css stylesheet has been applied.");
-        } catch (error) {
-            console.error(error.message);
-        }
+        document.body.dataset.applied = "true";
+
+        console.log("gh.css stylesheet has been applied.");
+    } catch (error) {
+        console.error(error.message);
     }
 }
+
+async function applyGhCssStylesheet(url) {
+    if (!isGithubUserProfile(url)) return;
+
+    if (document.body.dataset.applied === "true") {
+        console.log('gh.css stylesheet has already been applied.');
+        return;
+    }
+
+    const cssContainer = document.getElementById("ghcss-container");
+
+    if (cssContainer!= null) {
+        const lastUsername = cssContainer.getAttribute("username");
+        const username = new URL(document.URL).pathname.split("/").filter(segment => segment!== "")[0];
+
+        if (lastUsername !== username) {
+            cssContainer.remove();
+        }
+    }
+
+    await appendStyleTag(url);
+}
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    if (request.action === "pageLoad") {
+        applyGhCssStylesheet(document.URL);
+    }
+
+    return true;
+});
