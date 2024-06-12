@@ -92,17 +92,24 @@ function deleteCssContainer() {
 // Listen for messages from the background script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "ghcss") {
-        chrome.storage.local.get("injection", async (data) => {
-            if (await data.injection) {
-                const userId = document.querySelector('meta[name="octolytics-actor-id"]').content;
-                const isBanned = await chrome.runtime.sendMessage({action: "checkUser", userId: userId}).isBanned;
-
-                chrome.storage.local.get("ignoreBans", async (data) => {
-                    if (isBanned && !data.ignoreBans) return;
-                    await applyGhCssStylesheet(document.URL);
-                });
-            }
-        });
+        if (!isGithubUserProfile(document.URL)) {
+            deleteCssContainer();
+            return;
+        } else {
+            chrome.storage.local.get("injection", async (data) => {
+                if (await data.injection) {
+                    const userId = document.querySelector('meta[name="octolytics-actor-id"]').content;
+                    chrome.storage.local.get("ignoreBans", async (data) => {
+                        if (await data.ignoreBans) {
+                            await applyGhCssStylesheet(document.URL);
+                        } else {
+                            const isBanned = await chrome.runtime.sendMessage({action: "checkUser", userId: userId}).isBanned;
+                            if (!isBanned) await applyGhCssStylesheet(document.URL);
+                        }
+                    });
+                }
+            });
+        }
 
         return true; // make the handler asynchronous
     }
