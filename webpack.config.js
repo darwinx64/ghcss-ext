@@ -14,7 +14,7 @@ function convertToFirefoxManifest(manifest) {
     const copy = Object.assign({}, manifest);
 
     copy.background = {
-        page: "src/background_ff.html"
+        page: "background_ff.html"
     }
 
     return copy;

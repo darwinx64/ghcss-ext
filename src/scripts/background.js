@@ -1,9 +1,14 @@
-chrome.tabs.onUpdated.addListener(function
-    (tabId, changeInfo, tab) {
-    if (changeInfo.url) {
-        chrome.tabs.sendMessage(tabId, {
-            message: 'urlchange'
-        })
-    }
+function injectScript(tabId) {
+    chrome.scripting.executeScript(
+        {
+            target: {tabId: tabId},
+            files: ["ghcss.js"],
+        }
+    );
 }
-)
+
+chrome.webNavigation.onCompleted.addListener((details) => {
+    if (["reload", "typed", "link"].includes(details.transitionType)) {
+        injectScript(details.tabId);
+    }
+});

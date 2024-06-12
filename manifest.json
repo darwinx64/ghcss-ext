@@ -9,6 +9,7 @@
   },
   "permissions": [
     "activeTab",
+    "webNavigation",
     "tabs",
     "storage"
   ],
@@ -17,12 +18,8 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "https://github.com/*"
-      ],
-      "js": [
-        "scripts/content.js"
-      ],
+      "matches": ["https://github.com/*"],
+      "js": ["scripts/ghcss.js"],
       "run_at": "document_idle"
     }
   ]
