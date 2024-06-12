@@ -32,8 +32,6 @@ async function fetchCssFile(url) {
         const response = await fetch(ghCssUrl);
         if (!response.ok) return null;
 
-        console.log("abc")
-
         return await response.text();
     } catch (error) {
         console.error(error.message);
@@ -56,8 +54,6 @@ async function appendStyleTag(url) {
         document.head.appendChild(styleElement);
 
         document.body.dataset.applied = "true";
-
-        console.log("gh.css stylesheet has been applied.");
     } catch (error) {
         console.error(error.message);
     }
@@ -66,10 +62,7 @@ async function appendStyleTag(url) {
 async function applyGhCssStylesheet(url) {
     if (!isGithubUserProfile(url)) return;
 
-    if (document.body.dataset.applied === "true") {
-        console.log('gh.css stylesheet has already been applied.');
-        return;
-    }
+    if (document.body.dataset.applied === "true") return;
 
     const cssContainer = document.getElementById("ghcss-container");
 
@@ -85,9 +78,9 @@ async function applyGhCssStylesheet(url) {
     await appendStyleTag(url);
 }
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     if (request.action === "pageLoad") {
-        applyGhCssStylesheet(document.URL);
+        await applyGhCssStylesheet(document.URL);
     }
 
     return true;
