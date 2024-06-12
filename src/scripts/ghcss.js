@@ -98,7 +98,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         } else {
             chrome.storage.local.get("injection", async (data) => {
                 if (await data.injection) {
-                    const userId = document.querySelector('meta[name="octolytics-actor-id"]').content;
+                    const userId = document.querySelector('meta[name="octolytics-dimension-user_id"]').content;
                     chrome.storage.local.get("ignoreBans", async (data) => {
                         if (await data.ignoreBans) {
                             await applyGhCssStylesheet(document.URL);
