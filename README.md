@@ -1,14 +1,14 @@
 # ghcss-ext
 A Chrome extension to inject a CSS codeblock from Github profiles into the entire page.
 
-![hold on](https://files.catbox.moe/gbztli.png)
+![ghcss](https://files.catbox.moe/gbztli.png)
 
 <a href="https://github.com/tiramisyuz/ghcss-ext/releases">Releases (compiled CRXs)</a>
 
-If you use Firefox either use the Firefox branch or get it from [the extension store](https://addons.mozilla.org/en-US/firefox/addon/ghcss/). The extension on the store is maintained by [@zoey-on-github](https://github.com/zoey-on-github).
+If you use Firefox get it from [the extension store](https://addons.mozilla.org/en-US/firefox/addon/ghcss/). The extension on the store is maintained by [@zoey-on-github](https://github.com/zoey-on-github).
 
 ## Usage
-Put the following into your profile's README.md (**this is just an example**):
+Put the following into your profile's README.md (**This is just an example**):
 
 ```md
 <details id="ghusrcss">
@@ -24,7 +24,7 @@ p, header, a, span {
 </details>
 ```
 
-.. and install the extension. **You may customize this however you want, however, make sure to keep the IDs the same**
+... and install the extension. **You may customize this however you want, however, make sure to keep the IDs the same**
 
 ## Contributing
 Contributions are welcome.
