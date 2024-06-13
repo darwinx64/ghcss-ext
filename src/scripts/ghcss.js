@@ -23,6 +23,28 @@ function isGithubUserProfile(url) {
     }
 }
 
+// Minify the CSS file so it's easier to parse
+function minifyCss(css){
+    // Remove comments
+    css = css.replace(/\/\*[\s\S]*?\*\//g, '');
+    // Remove whitespace around selectors, properties, and values
+    css = css.replace(/\s*([{}:;])\s*/g, '$1');
+    // Remove trailing semicolons inside blocks
+    css = css.replace(/;}/g, '}');
+    // Remove extra whitespace
+    css = css.replace(/\s+/g, ' ');
+    // Remove space before the opening brace
+    css = css.replace(/\s*{\s*/g, '{');
+    // Remove space before the closing brace
+    css = css.replace(/\s*}\s*/g, '}');
+    // Remove space before the colon
+    css = css.replace(/\s*:\s*/g, ':');
+    // Remove space before the semicolon
+    css = css.replace(/\s*;\s*/g, ';');
+
+    return css.trim();
+}
+
 // Fetch the CSS file from the GitHub repository
 async function fetchCssFile(url) {
     const parsedUrl = new URL(url);
@@ -33,7 +55,7 @@ async function fetchCssFile(url) {
         const response = await fetch(ghCssUrl);
         if (!response.ok) return null;
 
-        return await response.text();
+        return minifyCss(await response.text());
     } catch (error) {
         console.error("Error fetching CSS file:", error.message);
         return null;
