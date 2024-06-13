@@ -9,7 +9,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // Handle checkUser action by fetching user data from the backend server
     if (request.action === "checkUser" && request.userId) {
-        fetch(`https://ghcss.bims.sh/user/${request.userId}`)
+        fetch(`https://ghcss.bims.sh/api/githubuser/${request.userId}`)
             .then(response => response.json())
             .then(data => sendResponse(data))
             .catch(error => console.error("Error fetching user data:", error));
