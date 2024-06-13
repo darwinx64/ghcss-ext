@@ -1,3 +1,9 @@
+import browser from "webextension-polyfill";
+
+browser.runtime.onInstalled.addListener(() => {
+    console.log("Installed!");
+});
+
 // Listen for tab updates and send a message to content scripts when the page is fully loaded and the tab is active
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === "complete" && tab.active) {

@@ -1,3 +1,8 @@
+
+//import DOMPurify from 'dompurify';
+
+//console.log(DOMPurify.sanitize("<div>hello<div>"));
+
 // Check if the URL corresponds to a valid GitHub user profile
 function isGithubUserProfile(url) {
     try {

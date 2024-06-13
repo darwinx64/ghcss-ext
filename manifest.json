@@ -4,7 +4,7 @@
   "version": "1.0",
   "manifest_version": 3,
   "action": {
-    "default_popup": "index.html",
+    "default_popup": "src/popup.html",
     "default_icon": "icons/512.png"
   },
   "permissions": [
@@ -16,12 +16,12 @@
     "*://*.ghcss.bims.sh/*"
   ],
   "background": {
-    "service_worker": "scripts/background.js"
+    "service_worker": "src/scripts/background.js"
   },
   "content_scripts": [
     {
       "matches": ["*://*.github.com/*"],
-      "js": ["scripts/ghcss.js"],
+      "js": ["src/scripts/ghcss.js"],
       "run_at": "document_idle"
     }
   ]
