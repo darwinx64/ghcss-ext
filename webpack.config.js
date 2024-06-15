@@ -1,64 +1,83 @@
-const path = require('path');
-const glob = require('glob');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
-const CopyPlugin = require('copy-webpack-plugin');
+const path = require("path");
+const glob = require("glob");
+const webpack = require("webpack");
+const CopyPlugin = require("copy-webpack-plugin");
+const resolve = require("path").resolve;
 
-function getPathEntries(path) {
-    return glob.sync(path).reduce((acc, e) => {
+function getPathEntries(pattern) {
+    return glob.sync(pattern).reduce((acc, filePath) => {
+        if (!filePath.includes("node_modules")) {
+            const entryName = path.relative("./src", filePath).replace(/\.[^/.]+$/, "");
+            acc[entryName] = path.resolve(filePath);
+        }
         return acc;
     }, {});
 }
 
 function convertToFirefoxManifest(manifest) {
-    const copy = Object.assign({}, manifest);
-
-    copy.background = {
-        page: "background_ff.html"
-    }
-
-    return copy;
+    return { ...manifest, background: { page: "background_ff.html" } };
 }
 
 module.exports = (env) => {
     const mode = env.mode || "dev";
 
     return {
-        mode: "none",
-        entry: Object.assign(
-            getPathEntries("./src/*.js")
-        ),
+        mode: mode === 'dev' ? 'development' : 'production',
+        entry: {
+            ...getPathEntries("./src/background.ts"),
+            ...getPathEntries("./src/popup.ts"),
+            ...getPathEntries("./src/popup.css"),
+            ...getPathEntries("./src/**/*.js"),
+            ...getPathEntries("./src/lib/**/*.ts")
+        },
         output: {
-            path: path.join(__dirname, "dist"),
+            path: path.resolve(__dirname, "dist"),
             filename: "[name].js"
         },
         resolve: {
-            extensions: [".js", ".html"]
+            extensions: [".ts", ".js", ".html"],
+            alias: {
+                src: path.resolve(__dirname, "src")
+            }
         },
         module: {
             rules: [
                 {
+                    test: /\.ts$/,
+                    loader: "ts-loader",
+                    exclude: /node_modules|\.d\.ts$/,
+                },
+                {
+                    test: /\.d\.ts$/,
+                    loader: "ignore-loader",
+                },
+                {
                     test: new RegExp(`.(css)$`),
-                    loader: 'file-loader',
+                    loader: "file-loader",
                     options: {
-                        name: '[name].[ext]',
+                        name: "[name].[ext]",
                     },
                     exclude: /node_modules/,
-                }
+                },
+                {
+                    test: /environment\.ts$/,
+                    loader: "file-replace-loader",
+                    options: {
+                        condition: mode === "development",
+                        replacement: resolve('./src/environment.dev.ts'),
+                    },
+                },
             ]
         },
         plugins: [
             new webpack.SourceMapDevToolPlugin({}),
-            new HtmlWebpackPlugin({
-                title: "ghcss",
-                template: "src/popup.html"
-            }),
             new CopyPlugin({
                 patterns: [
                     { from: "icons", to: "icons", context: "." },
-                    { from: "styles/*", to: ".", context: "./src" },
-                    { from: "scripts/*", to: ".", context: "./src" },
+                    { from: "src/popup.css", to: ".", context: "." },
+                    { from: "src/popup.html", to: ".", context: "." },
                     { from: "src/background_ff.html", to: ".", context: "." },
+                    { from: "README.md", to: ".", context: "." },
                     {
                         from: "manifest.json", to: "manifest.json",
                         transform(raw) {
@@ -77,6 +96,13 @@ module.exports = (env) => {
                     }
                 ]
             })
-        ]
+        ],
+        stats: {
+            errorDetails: true,
+            colors: true
+        },
+        optimization: {
+            usedExports: true
+        }
     }
 }

@@ -1,7 +1,7 @@
-const injectCheckbox = document.getElementById('injection');
-const ignoreBansCheckbox = document.getElementById('ignore-bans');
+const injectCheckbox: HTMLInputElement = document.getElementById("injection") as HTMLInputElement;
+const ignoreBansCheckbox: HTMLInputElement = document.getElementById("ignoreBans") as HTMLInputElement;
 
-window.onload = function() {
+window.onload = function () {
     chrome.storage.local.get("injection", function (data) {
         injectCheckbox.checked = data.injection;
     });
@@ -11,10 +11,10 @@ window.onload = function() {
     });
 };
 
-injectCheckbox.addEventListener('change', (event) => {
+injectCheckbox.addEventListener("change", function (event: any) {
     chrome.storage.local.set({injection: event.target.checked});
 });
 
-ignoreBansCheckbox.addEventListener('change', (event) => {
+ignoreBansCheckbox.addEventListener("change", function (event: any) {
     chrome.storage.local.set({ignoreBans: event.target.checked});
 });

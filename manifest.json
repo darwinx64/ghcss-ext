@@ -3,26 +3,39 @@
   "description": "Custom Github Profile CSS",
   "version": "1.0",
   "manifest_version": 3,
-  "action": {
-    "default_popup": "index.html",
-    "default_icon": "icons/512.png"
+  "icons": {
+    "64": "icons/64.png",
+    "128": "icons/128.png",
+    "256": "icons/256.png",
+    "512": "icons/512.png"
   },
   "permissions": [
     "activeTab",
     "tabs",
-    "storage"
+    "storage",
+    "scripting"
   ],
   "host_permissions": [
     "*://*.ghcss.bims.sh/*"
   ],
-  "background": {
-    "service_worker": "scripts/background.js"
-  },
   "content_scripts": [
     {
-      "matches": ["*://*.github.com/*"],
-      "js": ["scripts/ghcss.js"],
-      "run_at": "document_idle"
+      "matches": [
+        "*://github.com/*"
+      ],
+      "js": [
+        "lib/core.js"
+      ]
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "icons/128.png"
+    }
+  }
 }

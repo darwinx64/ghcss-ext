@@ -1,7 +1,7 @@
 body {
     background-color: #222;
     color: #ddd;
-    font-family: "SF Pro", "Arial";
+    font-family: "SF Pro", "Arial", serif;
     user-select: none;
 }
 
@@ -26,6 +26,7 @@ a {
     color: #9cf;
     text-decoration: none;
 }
+
 a:hover {
     text-decoration: underline;
 }
@@ -38,6 +39,7 @@ a:hover {
     border-radius: 5px;
     cursor: pointer;
 }
+
 .btn:hover {
     background-color: #777;
 }
