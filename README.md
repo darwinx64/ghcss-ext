@@ -1,3 +1,5 @@
+# Development moved to https://github.com/gh-css/extension
+
 #### 
 
 <div align="center">
